@@ -6,7 +6,6 @@ import (
 
 	"github.com/BraspagDevelopers/canned-testcontainers"
 	"github.com/docker/go-connections/nat"
-	"github.com/palantir/stacktrace"
 	"github.com/pkg/errors"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -36,11 +35,11 @@ func (req ContainerRequest) WithNetworkAlias(network, alias string) ContainerReq
 func (c Container) BaseURL(ctx context.Context) (string, error) {
 	host, err := c.Container.Host(ctx)
 	if err != nil {
-		return "", stacktrace.Propagate(err, "Error reading container host name")
+		return "", errors.Wrap(err, "Error reading container host name")
 	}
 	port, err := c.Container.MappedPort(ctx, c.req.Port)
 	if err != nil {
-		return "", stacktrace.Propagate(err, "Error reading container mapped port")
+		return "", errors.Wrap(err, "Error reading container mapped port")
 	}
 	return fmt.Sprintf("http://%s:%s", host, port.Port()), nil
 }

@@ -2,11 +2,10 @@ package canned
 
 import (
 	"context"
-	"errors"
 	"strings"
 
 	"github.com/docker/go-connections/nat"
-	"github.com/palantir/stacktrace"
+	"github.com/pkg/errors"
 	"github.com/testcontainers/testcontainers-go"
 )
 
@@ -27,11 +26,11 @@ func AddNetworkAlias(req *testcontainers.GenericContainerRequest, network, alias
 
 func GetHostAndPort(ctx context.Context, c testcontainers.Container, exposedPort nat.Port) (host string, port nat.Port, err error) {
 	if host, err = c.Host(ctx); err != nil {
-		err = stacktrace.Propagate(err, "Error reading container host name")
+		err = errors.Wrap(err, "Error reading container host name")
 		return
 	}
 	if port, err = c.MappedPort(ctx, exposedPort); err != nil {
-		err = stacktrace.Propagate(err, "Error reading container mapped port")
+		err = errors.Wrap(err, "Error reading container mapped port")
 		return
 	}
 	return
