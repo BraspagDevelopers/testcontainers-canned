@@ -14,7 +14,7 @@ import (
 func TestWhenDoesNotProvideImage_ShouldReturnError(t *testing.T) {
 	ctx := context.Background()
 
-	c, err := New(ctx, ContainerRequest{})
+	c, err := CreateContainer(ctx, ContainerRequest{})
 	assert.EqualError(t, err, "an image name is required")
 	assert.Nil(t, c)
 }
@@ -22,7 +22,7 @@ func TestWhenDoesNotProvideImage_ShouldReturnError(t *testing.T) {
 func TestEcho(t *testing.T) {
 	ctx := context.Background()
 
-	c, err := New(ctx, ContainerRequest{
+	c, err := CreateContainer(ctx, ContainerRequest{
 		Image: "jmalloc/echo-server",
 		Port:  "8080/tcp",
 	})

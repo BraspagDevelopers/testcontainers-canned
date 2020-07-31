@@ -21,7 +21,7 @@ func (req ContainerRequest) WithNetworkAlias(network, alias string) ContainerReq
 	return req
 }
 
-func New(ctx context.Context, req ContainerRequest) (*Container, error) {
+func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, error) {
 	if req.Port == "" {
 		req.Port = exposedPort
 	}
@@ -31,7 +31,7 @@ func New(ctx context.Context, req ContainerRequest) (*Container, error) {
 	if req.LivenessEndpoint == "" {
 		req.LivenessEndpoint = livenessEndpoint
 	}
-	apic, err := genericapi.New(ctx, genericapi.ContainerRequest(req))
+	apic, err := genericapi.CreateContainer(ctx, genericapi.ContainerRequest(req))
 	c := Container(*apic)
 	return &c, err
 }

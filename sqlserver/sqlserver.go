@@ -51,7 +51,7 @@ func (c *Container) DotNetConnectionStringForNetwork(ctx context.Context, networ
 	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", alias, exposedPort, c.req.Username, c.req.Password), nil
 }
 
-func New(ctx context.Context, req ContainerRequest) (*Container, error) {
+func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, error) {
 	if req.Image == "" {
 		req.Image = image
 	}

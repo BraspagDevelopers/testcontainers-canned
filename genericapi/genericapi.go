@@ -45,7 +45,7 @@ func (c Container) BaseURL(ctx context.Context) (string, error) {
 	return fmt.Sprintf("http://%s:%s", host, port.Port()), nil
 }
 
-func New(ctx context.Context, req ContainerRequest) (*Container, error) {
+func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, error) {
 	if req.Port == "" {
 		req.Port = defaultPort
 	}
