@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/BraspagDevelopers/canned-testcontainers"
+	canned "github.com/BraspagDevelopers/testcontainers-canned"
 	"github.com/docker/go-connections/nat"
 	"github.com/pkg/errors"
 	"github.com/testcontainers/testcontainers-go"

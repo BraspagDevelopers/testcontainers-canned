@@ -3,8 +3,8 @@ package mockserver
 import (
 	"context"
 
-	"github.com/BraspagDevelopers/canned-testcontainers"
-	"github.com/BraspagDevelopers/canned-testcontainers/genericapi"
+	canned "github.com/BraspagDevelopers/testcontainers-canned"
+	"github.com/BraspagDevelopers/testcontainers-canned/genericapi"
 )
 
 const (

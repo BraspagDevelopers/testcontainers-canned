@@ -1,4 +1,4 @@
-# canned-testcontainers
+# testcontainers-canned
 Canned container for tests using the library [testcontainers-go](https://github.com/testcontainers/testcontainers-go).
 
 What does it mean?

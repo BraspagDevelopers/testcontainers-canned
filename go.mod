@@ -1,4 +1,4 @@
-module github.com/BraspagDevelopers/canned-testcontainers
+module github.com/BraspagDevelopers/testcontainers-canned
 
 go 1.14
 
