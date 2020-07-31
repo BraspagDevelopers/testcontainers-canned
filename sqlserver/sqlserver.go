@@ -7,7 +7,6 @@ import (
 
 	"github.com/BraspagDevelopers/canned-testcontainers"
 	"github.com/docker/go-connections/nat"
-	"github.com/palantir/stacktrace"
 	"github.com/pkg/errors"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -36,16 +35,20 @@ func (req ContainerRequest) WithNetworkAlias(network, alias string) ContainerReq
 	return req
 }
 
-func (c *Container) ConnectionString(ctx context.Context) (string, error) {
-	host, err := c.Container.Host(ctx)
+func (c *Container) GoConnectionString(ctx context.Context) (string, error) {
+	host, port, err := canned.GetHostAndPort(ctx, c.Container, exposedPort)
 	if err != nil {
-		return "", stacktrace.Propagate(err, "Error reading container host name")
-	}
-	port, err := c.Container.MappedPort(ctx, exposedPort)
-	if err != nil {
-		return "", stacktrace.Propagate(err, "Error reading container mapped port")
+		return "", err
 	}
 	return fmt.Sprintf("sqlserver://%s:%s@%s:%s", c.req.Username, c.req.Password, host, port.Port()), nil
+}
+
+func (c *Container) DotNetConnectionStringForNetwork(ctx context.Context, network string) (string, error) {
+	alias, err := canned.GetAliasForNetwork(ctx, c.req.GenericContainerRequest, network)
+	if err != nil {
+
+	}
+	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", alias, exposedPort, c.req.Username, c.req.Password), nil
 }
 
 func New(ctx context.Context, req ContainerRequest) (*Container, error) {
