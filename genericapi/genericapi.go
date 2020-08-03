@@ -96,3 +96,11 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 
 	return result, nil
 }
+
+// Shutdown terminates the container
+func (c *Container) Shutdown(ctx context.Context) error {
+	if c != nil && c.Container != nil {
+		return c.Container.Terminate(ctx)
+	}
+	return nil
+}

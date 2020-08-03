@@ -39,4 +39,7 @@ func TestEcho(t *testing.T) {
 	buf.ReadFrom(resp.Body)
 	body := buf.String()
 	assert.Contains(t, body, "Hello World!")
+
+	err = c.Shutdown(ctx)
+	require.NoError(t, err)
 }
