@@ -86,6 +86,7 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 		req: req,
 	}
 
+	req.Started = false
 	if result.Container, err = provider.CreateContainer(ctx, req.ContainerRequest); err != nil {
 		return result, errors.Wrap(err, "Error creating container")
 	}

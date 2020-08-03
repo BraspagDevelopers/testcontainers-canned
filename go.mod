@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/Microsoft/hcsshim v0.8.9 // indirect
 	github.com/containerd/continuity v0.0.0-20200710164510-efbc4488d8fe // indirect
+	github.com/denisenkom/go-mssqldb v0.0.0-20200620013148-b91950f658ec
 	github.com/docker/docker v1.4.2-0.20200203170920-46ec8731fbce // indirect
 	github.com/docker/go-connections v0.4.0
 	github.com/golang/protobuf v1.4.2 // indirect

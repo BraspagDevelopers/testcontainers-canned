@@ -3,6 +3,7 @@ package sqlserver
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	canned "github.com/BraspagDevelopers/testcontainers-canned"
@@ -23,6 +24,7 @@ type ContainerRequest struct {
 	Username string
 	Password string
 	Image    string
+	Logger   *testcontainers.LogConsumer
 }
 
 type Container struct {
@@ -52,8 +54,13 @@ func (c *Container) DotNetConnectionStringForNetwork(ctx context.Context, networ
 }
 
 func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, error) {
+	if req.Env == nil {
+		req.Env = make(map[string]string)
+	}
+	req.Env["ACCEPT_EULA"] = "Y"
 	if req.Image == "" {
 		req.Image = image
+		req.Env["MSSQL_PID"] = "Express"
 	}
 	req.GenericContainerRequest.Image = req.Image
 	if req.ExposedPorts == nil {
@@ -64,7 +71,9 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 		req.Username = username
 	}
 	if req.Password == "" {
-		return nil, errors.New("A password must be provided")
+		return nil, errors.New("a password must be provided")
+	} else {
+		req.Env["SA_PASSWORD"] = req.Password
 	}
 	if req.WaitingFor == nil {
 		req.WaitingFor = wait.ForSQL(exposedPort, "sqlserver", func(port nat.Port) string {
@@ -81,14 +90,24 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 		req: req,
 	}
 
+	req.Started = false
+	log.Println("creating sqlserver")
 	if result.Container, err = provider.CreateContainer(ctx, req.ContainerRequest); err != nil {
-		return result, errors.Wrap(err, "Error creating container")
+		return result, errors.Wrap(err, "could not create container")
 	}
 
+	if req.Logger != nil {
+		log.Println("starting logger for sqlserver")
+		if err = result.Container.StartLogProducer(ctx); err != nil {
+			return result, errors.Wrap(err, "could not start log producer")
+		}
+		result.Container.FollowOutput(*req.Logger)
+	}
+
+	log.Println("starting sqlserver")
 	if err = result.Container.Start(ctx); err != nil {
-		return result, errors.Wrap(err, "Error starting container")
+		return result, errors.Wrap(err, "could not start container")
 	}
-
 	return result, nil
 }
 
