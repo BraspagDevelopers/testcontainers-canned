@@ -46,7 +46,7 @@ func (c *Container) GoConnectionString(ctx context.Context) (string, error) {
 func (c *Container) DotNetConnectionStringForNetwork(ctx context.Context, network string) (string, error) {
 	alias, err := canned.GetAliasForNetwork(ctx, c.req.GenericContainerRequest, network)
 	if err != nil {
-
+		return "", err
 	}
 	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", alias, exposedPort, c.req.Username, c.req.Password), nil
 }

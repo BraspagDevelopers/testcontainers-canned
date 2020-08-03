@@ -28,7 +28,7 @@ func TestEcho(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	url, err := c.BaseURL(ctx)
+	url, err := c.URL(ctx)
 	require.NoError(t, err)
 
 	resp, err := http.Post(url, "text/plain", strings.NewReader("Hello World!"))

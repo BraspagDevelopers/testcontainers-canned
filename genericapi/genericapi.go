@@ -32,7 +32,7 @@ func (req ContainerRequest) WithNetworkAlias(network, alias string) ContainerReq
 	return req
 }
 
-func (c Container) BaseURL(ctx context.Context) (string, error) {
+func (c Container) URL(ctx context.Context) (string, error) {
 	host, err := c.Container.Host(ctx)
 	if err != nil {
 		return "", errors.Wrap(err, "Error reading container host name")
@@ -42,6 +42,15 @@ func (c Container) BaseURL(ctx context.Context) (string, error) {
 		return "", errors.Wrap(err, "Error reading container mapped port")
 	}
 	return fmt.Sprintf("http://%s:%s", host, port.Port()), nil
+}
+
+func (c Container) URLForNetwork(ctx context.Context, network string) (string, error) {
+
+	alias, err := canned.GetAliasForNetwork(ctx, c.req.GenericContainerRequest, network)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("http://%s:%s", alias, c.req.Port.Port()), nil
 }
 
 func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, error) {
