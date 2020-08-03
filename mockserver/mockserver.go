@@ -21,6 +21,14 @@ func (req ContainerRequest) WithNetworkAlias(network, alias string) ContainerReq
 	return req
 }
 
+func (c Container) URL(ctx context.Context) (string, error) {
+	return genericapi.Container(c).URL(ctx)
+}
+
+func (c Container) URLForNetwork(ctx context.Context, network string) (string, error) {
+	return genericapi.Container(c).URLForNetwork(ctx, network)
+}
+
 func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, error) {
 	if req.Port == "" {
 		req.Port = exposedPort
