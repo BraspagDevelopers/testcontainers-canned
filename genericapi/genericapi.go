@@ -53,6 +53,10 @@ func (c Container) URLForNetwork(ctx context.Context, network string) (string, e
 	return fmt.Sprintf("http://%s:%s", alias, c.req.Port.Port()), nil
 }
 
+func (c Container) HostAndPort(ctx context.Context) (string, nat.Port, error) {
+	return canned.GetHostAndPort(ctx, c.Container, c.req.Port)
+}
+
 func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, error) {
 	if req.Port == "" {
 		req.Port = defaultPort

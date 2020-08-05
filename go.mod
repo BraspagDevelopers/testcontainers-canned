@@ -3,6 +3,7 @@ module github.com/BraspagDevelopers/testcontainers-canned
 go 1.14
 
 require (
+	github.com/BraspagDevelopers/mock-server-client v0.2.2
 	github.com/Microsoft/hcsshim v0.8.9 // indirect
 	github.com/containerd/continuity v0.0.0-20200710164510-efbc4488d8fe // indirect
 	github.com/denisenkom/go-mssqldb v0.0.0-20200620013148-b91950f658ec
