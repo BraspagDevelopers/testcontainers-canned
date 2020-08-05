@@ -23,7 +23,7 @@ func (n *Network) Shutdown(ctx context.Context) error {
 }
 
 // CreateNetwork creates a new network with a random name
-func CreateNetwork(ctx context.Context) (Network, error) {
+func CreateNetwork(ctx context.Context) (*Network, error) {
 	var network Network
 	network.Name = fmt.Sprintf("net_%s", uuid.New())
 	n, err := testcontainers.GenericNetwork(ctx, testcontainers.GenericNetworkRequest{
@@ -33,5 +33,5 @@ func CreateNetwork(ctx context.Context) (Network, error) {
 		},
 	})
 	network.Network = n
-	return network, err
+	return &network, err
 }
