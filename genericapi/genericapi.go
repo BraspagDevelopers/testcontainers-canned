@@ -54,11 +54,6 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 	if req.WaitingFor == nil {
 		req.WaitingFor = wait.ForHTTP(req.LivenessEndpoint).
 			WithPort(req.Port)
-	} else {
-		req.WaitingFor = wait.ForAll(
-			req.WaitingFor,
-			wait.ForHTTP(req.LivenessEndpoint).
-				WithPort(req.Port))
 	}
 
 	provider, err := req.ProviderType.GetProvider()
