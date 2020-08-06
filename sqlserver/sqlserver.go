@@ -3,7 +3,6 @@ package sqlserver
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	canned "github.com/BraspagDevelopers/testcontainers-canned"
@@ -79,20 +78,17 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 	}
 
 	req.Started = false
-	log.Println("creating sqlserver")
 	if result.Container, err = provider.CreateContainer(ctx, req.ContainerRequest); err != nil {
 		return result, errors.Wrap(err, "could not create container")
 	}
 
 	if req.Logger != nil {
-		log.Println("starting logger for sqlserver")
 		if err = result.Container.StartLogProducer(ctx); err != nil {
 			return result, errors.Wrap(err, "could not start log producer")
 		}
 		result.Container.FollowOutput(*req.Logger)
 	}
 
-	log.Println("starting sqlserver")
 	if err = result.Container.Start(ctx); err != nil {
 		return result, errors.Wrap(err, "could not start container")
 	}
