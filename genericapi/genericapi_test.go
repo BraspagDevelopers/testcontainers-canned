@@ -6,9 +6,11 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/testcontainers/testcontainers-go/wait"
 )
 
 func TestWhenDoesNotProvideImage_ShouldReturnError(t *testing.T) {
@@ -42,4 +44,19 @@ func TestEcho(t *testing.T) {
 
 	err = c.Shutdown(ctx)
 	require.NoError(t, err)
+}
+
+func TestWhenPortIsWrongWaitShouldThrowError(t *testing.T) {
+	ctx := context.Background()
+
+	req := ContainerRequest{
+		Image: "braspagbrs.azurecr.io/canais/mocks/api/bpauth",
+	}.WithNetworkAlias("my_network", "bpauth_api")
+	req.WaitingFor = wait.ForHTTP("/live").WithStartupTimeout(3 * time.Second)
+
+	_, err := CreateContainer(ctx, ContainerRequest{
+		Image: "braspagbrs.azurecr.io/canais/mocks/api/bpauth",
+		Port:  "80/tcp",
+	})
+	require.Error(t, err)
 }

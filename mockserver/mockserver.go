@@ -54,6 +54,7 @@ func (c Container) URLForNetwork(ctx context.Context, network string) (string, e
 	return genericapi.Container(c).URLForNetwork(ctx, network)
 }
 
+// HostAndPort retrieves the external host and port of the container
 func (c Container) HostAndPort(ctx context.Context) (string, nat.Port, error) {
 	return genericapi.Container(c).HostAndPort(ctx)
 }

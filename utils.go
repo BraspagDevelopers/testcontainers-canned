@@ -9,6 +9,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 )
 
+// AddNetworkAlias adds a network alias to a generic container request
 func AddNetworkAlias(req *testcontainers.GenericContainerRequest, network, alias string) {
 	if req.Networks == nil {
 		req.Networks = make([]string, 0)
@@ -24,6 +25,7 @@ func AddNetworkAlias(req *testcontainers.GenericContainerRequest, network, alias
 	req.NetworkAliases[network] = append(req.NetworkAliases[network], alias)
 }
 
+// GetHostAndPort retrieves the container host and port
 func GetHostAndPort(ctx context.Context, c testcontainers.Container, exposedPort nat.Port) (host string, port nat.Port, err error) {
 	if host, err = c.Host(ctx); err != nil {
 		err = errors.Wrap(err, "Error reading container host name")
@@ -36,6 +38,7 @@ func GetHostAndPort(ctx context.Context, c testcontainers.Container, exposedPort
 	return
 }
 
+// GetAliasForNetwork retrieves the container alias in the specified network
 func GetAliasForNetwork(ctx context.Context, req testcontainers.GenericContainerRequest, network string) (string, error) {
 	hasNetwork := false
 	for _, n := range req.Networks {

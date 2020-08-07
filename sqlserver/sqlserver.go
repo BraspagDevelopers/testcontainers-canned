@@ -104,7 +104,19 @@ func (c *Container) GoConnectionString(ctx context.Context) (string, error) {
 	return fmt.Sprintf("sqlserver://%s:%s@%s:%s", c.req.Username, c.req.Password, host, port.Port()), nil
 }
 
-// GoConnectionString returns a connection string suitable for usage in .NET
+// DotNetConnectionString returns a connection string suitable for usage in .NET
+func (c *Container) DotNetConnectionString(ctx context.Context) (string, error) {
+	host, port, err := canned.GetHostAndPort(ctx, c.Container, exposedPort)
+	if err != nil {
+		return "", err
+	}
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", host, port, c.req.Username, c.req.Password), nil
+}
+
+// DotNetConnectionStringForNetwork returns a connection string suitable for usage in .NET for a containter in the same network
 func (c *Container) DotNetConnectionStringForNetwork(ctx context.Context, network string) (string, error) {
 	alias, err := canned.GetAliasForNetwork(ctx, c.req.GenericContainerRequest, network)
 	if err != nil {
