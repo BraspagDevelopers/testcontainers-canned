@@ -97,7 +97,7 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 
 // GoConnectionString returns a connection string suitable for usage in Go
 func (c *Container) GoConnectionString(ctx context.Context) (string, error) {
-	host, port, err := canned.GetHostAndPort(ctx, c.Container, exposedPort)
+	host, port, err := c.HostAndPort(ctx)
 	if err != nil {
 		return "", err
 	}
@@ -106,14 +106,14 @@ func (c *Container) GoConnectionString(ctx context.Context) (string, error) {
 
 // DotNetConnectionString returns a connection string suitable for usage in .NET
 func (c *Container) DotNetConnectionString(ctx context.Context) (string, error) {
-	host, port, err := canned.GetHostAndPort(ctx, c.Container, exposedPort)
+	host, port, err := c.HostAndPort(ctx)
 	if err != nil {
 		return "", err
 	}
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", host, port, c.req.Username, c.req.Password), nil
+	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", host, port.Port(), c.req.Username, c.req.Password), nil
 }
 
 // DotNetConnectionStringForNetwork returns a connection string suitable for usage in .NET for a containter in the same network
@@ -122,5 +122,5 @@ func (c *Container) DotNetConnectionStringForNetwork(ctx context.Context, networ
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", alias, exposedPort, c.req.Username, c.req.Password), nil
+	return fmt.Sprintf("Data Source=%s,%s; User ID=%s; Password=%s; Pooling=False;", alias, nat.Port(exposedPort).Port(), c.req.Username, c.req.Password), nil
 }
