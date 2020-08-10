@@ -51,12 +51,10 @@ func TestWhenPortIsWrongWaitShouldThrowError(t *testing.T) {
 
 	req := ContainerRequest{
 		Image: "braspagbrs.azurecr.io/canais/mocks/api/bpauth",
+		Port:  "7000/tcp",
 	}.WithNetworkAlias("my_network", "bpauth_api")
 	req.WaitingFor = wait.ForHTTP("/live").WithStartupTimeout(3 * time.Second)
 
-	_, err := CreateContainer(ctx, ContainerRequest{
-		Image: "braspagbrs.azurecr.io/canais/mocks/api/bpauth",
-		Port:  "80/tcp",
-	})
+	_, err := CreateContainer(ctx, req)
 	require.Error(t, err)
 }
