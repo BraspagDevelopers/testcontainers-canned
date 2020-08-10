@@ -6,16 +6,9 @@ import (
 	canned "github.com/BraspagDevelopers/testcontainers-canned"
 )
 
-func TestMustBeShutdownable(t *testing.T) {
+func TestContainerMustBeContainer(t *testing.T) {
 	var c *Container
-	var x canned.Shutdownable
-	x = c
-	_ = x
-}
-
-func TestMustBeLoggable(t *testing.T) {
-	var c *Container
-	var x canned.Loggable
+	var x canned.Container
 	x = c
 	_ = x
 }

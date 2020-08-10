@@ -2,14 +2,17 @@ package mockserver
 
 import (
 	"context"
+	"errors"
 
-	canned "github.com/BraspagDevelopers/testcontainers-canned"
+	"github.com/BraspagDevelopers/testcontainers-canned/genericapi"
+	"github.com/docker/go-connections/nat"
 )
 
 // Shutdown terminates the container
 func (c *Container) Shutdown(ctx context.Context) error {
 	if c != nil && c.Container != nil {
-		return c.Container.Terminate(ctx)
+		gc := genericapi.Container(*c)
+		return gc.Shutdown(ctx)
 	}
 	return nil
 }
@@ -17,7 +20,17 @@ func (c *Container) Shutdown(ctx context.Context) error {
 // GetLogs retrieves all logs from the container
 func (c *Container) GetLogs(ctx context.Context) (string, error) {
 	if c != nil && c.Container != nil {
-		return canned.GetLogs(ctx, c.Container)
+		gc := genericapi.Container(*c)
+		return gc.GetLogs(ctx)
 	}
 	return "", nil
+}
+
+// HostAndPort retrieves the external host and port of the container
+func (c *Container) HostAndPort(ctx context.Context) (string, nat.Port, error) {
+	if c != nil && c.Container != nil {
+		gc := genericapi.Container(*c)
+		return gc.HostAndPort(ctx)
+	}
+	return "", "", errors.New("could not read host and port from a nil pointer")
 }

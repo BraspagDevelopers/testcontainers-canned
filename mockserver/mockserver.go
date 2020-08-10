@@ -6,7 +6,6 @@ import (
 	mockserverclient "github.com/BraspagDevelopers/mock-server-client"
 	canned "github.com/BraspagDevelopers/testcontainers-canned"
 	"github.com/BraspagDevelopers/testcontainers-canned/genericapi"
-	"github.com/docker/go-connections/nat"
 	"github.com/pkg/errors"
 )
 
@@ -52,11 +51,6 @@ func (c Container) URL(ctx context.Context) (string, error) {
 // URLForNetwork builds an URL that can be used to interact with the container's HTTP API inside the specified network
 func (c Container) URLForNetwork(ctx context.Context, network string) (string, error) {
 	return genericapi.Container(c).URLForNetwork(ctx, network)
-}
-
-// HostAndPort retrieves the external host and port of the container
-func (c Container) HostAndPort(ctx context.Context) (string, nat.Port, error) {
-	return genericapi.Container(c).HostAndPort(ctx)
 }
 
 // Client creates and returns a new mock-server client

@@ -24,7 +24,7 @@ type ContainerRequest struct {
 	Port             nat.Port
 }
 
-// Container represents a mock-server container
+// Container represents a container for an HTTP API
 type Container struct {
 	Container testcontainers.Container
 	req       ContainerRequest
@@ -98,9 +98,4 @@ func (c Container) URLForNetwork(ctx context.Context, network string) (string, e
 		return "", err
 	}
 	return fmt.Sprintf("http://%s:%s", alias, c.req.Port.Port()), nil
-}
-
-// HostAndPort the host and port that can be used to interact with the container's HTTP API
-func (c Container) HostAndPort(ctx context.Context) (string, nat.Port, error) {
-	return canned.GetHostAndPort(ctx, c.Container, c.req.Port)
 }
