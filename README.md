@@ -1,3 +1,7 @@
+![License](https://img.shields.io/github/license/BraspagDevelopers/testcontainers-canned.svg?style=flat-square)
+![Tag](https://img.shields.io/github/tag/BraspagDevelopers/testcontainers-canned.svg?style=flat-square)
+[![Go Report Card](https://goreportcard.com/badge/github.com/BraspagDevelopers/testcontainers-canned?style-flat-square)](https://goreportcard.com/report/github.com/BraspagDevelopers/testcontainers-canned)
+
 # testcontainers-canned
 Canned container for tests using the library [testcontainers-go](https://github.com/testcontainers/testcontainers-go).
 
