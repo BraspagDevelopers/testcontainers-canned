@@ -59,9 +59,8 @@ func CreateContainer(ctx context.Context, req ContainerRequest) (*Container, err
 	}
 	if req.Password == "" {
 		return nil, errors.New("a password must be provided")
-	} else {
-		req.Env["SA_PASSWORD"] = req.Password
 	}
+	req.Env["SA_PASSWORD"] = req.Password
 	if req.WaitingFor == nil {
 		req.WaitingFor = wait.ForSQL(exposedPort, "sqlserver", func(port nat.Port) string {
 			return fmt.Sprintf("sqlserver://%s:%s@localhost:%s", req.Username, req.Password, port.Port())

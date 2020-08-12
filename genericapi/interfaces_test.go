@@ -7,7 +7,7 @@ import (
 )
 
 func TestContainerMustBeContainer(t *testing.T) {
-	var c *Container
+	var c Container
 	var x canned.Container
 	x = c
 	_ = x

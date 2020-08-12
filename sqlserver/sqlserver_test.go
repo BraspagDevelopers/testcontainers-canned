@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"testing"
 
-	canned "github.com/BraspagDevelopers/testcontainers-canned"
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -24,7 +23,6 @@ func TestHappyScenario(t *testing.T) {
 
 	c, err := CreateContainer(ctx, ContainerRequest{
 		Password: "Database@1234!",
-		Logger:   canned.NewTestingLogger(t),
 	})
 	require.NoError(t, err)
 

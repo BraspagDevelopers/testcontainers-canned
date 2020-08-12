@@ -7,7 +7,7 @@ import (
 )
 
 func TestMustBeShutdownable(t *testing.T) {
-	var n *Network
+	var n Network
 	var x canned.Shutdownable
 	x = n
 	_ = x
